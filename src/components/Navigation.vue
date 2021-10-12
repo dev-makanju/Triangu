@@ -6,8 +6,8 @@
          </div>
          <div class="nav-links">
              <ul v-show="!isMobile">
-                <router-link class="link" to="#">Home</router-link>
-                <router-link class="link" to="#">Blogs</router-link>
+                <router-link class="link" :to="{name :'Home'}">Home</router-link>
+                <router-link class="link" :to="{name :'Blogs'}">Blogs</router-link>
                 <router-link class="link" to="#">Create Posts</router-link>
                 <router-link class="link" to="#">Login/Register</router-link>
              </ul>
@@ -16,10 +16,22 @@
      <menuIcon @click="toggleNavbar" class="menu-icon" v-show="isMobile"/>
      <transition name="mobile-nav">
             <ul class="mobile-nav" v-show="showMobileNavbar">
-                <router-link class="link" to="#">Home</router-link>
-                <router-link class="link" to="#">Blogs</router-link>
+                <router-link class="link" :to="{name :'Home'}">Home</router-link>
+                <router-link class="link" :to="{name :'Home'}">Blogs</router-link>
                 <router-link class="link" to="#">Create Posts</router-link>
                 <router-link class="link" to="#">Login/Register</router-link>
+
+                <div class="col-1">
+                    <router-link class="header" :to="{name:'Home'}">Triangu</router-link>
+                    <ul>
+                         <li>
+                             <a href="#"><twitter class="svg-icon"/></a>
+                         </li>
+                         <li>
+                             <a href="#"><linkedIn class="svg-icon"/></a>
+                         </li>
+                    </ul>
+                </div>
              </ul>
      </transition>
 </header>
@@ -27,11 +39,15 @@
 
 <script>
 import menuIcon from "../assets/Icons/bars-regular.svg";
+import twitter from "../assets/Icons/twitter-brands.svg"
+import linkedIn from "../assets/Icons/linkedin-brands.svg"
 
 export default {
     name: "Navigation",
     components:{
-        menuIcon
+        menuIcon,
+        twitter,
+        linkedIn
     },
     data(){
         return{
@@ -42,7 +58,7 @@ export default {
     },
 
     created(){
-        addEventListener('resize' , this.checkMobileDevice)
+        addEventListener('resize' , this.checkMobileDevice),
         this.checkMobileDevice;
     },
 
@@ -68,19 +84,16 @@ export default {
 
 <style lang="scss" scoped>
     header {
-        border: 1px solid #000;
         background-color: rgb(8, 8, 102);
         padding: 0 25px;
-        box-shadow: 0 4px 6px -1px rgba(0 , 0 , 0 , 0.1) , opx 2px 4px -1px rgba(0 , 0 , 0 , 0.06);
         z-index: 99;
 
         .link{
-            font-weight: 500;
-            padding: 0 8px;
-
-            &:hover{
+            font-weight: 600;
+            padding: 0 4px;
+            :hover{
                 color: blue;
-                transition: .5s all; 
+                transition: .2s all; 
             }
         }
 
@@ -88,6 +101,18 @@ export default {
             display: flex;
             padding: 25px 0;
             align-items: center;
+            width: 80%;
+            @media (max-width: 768px) {
+                width: 100%;
+            }
+            @media (max-width: 994px){
+                width: 90%;
+            }
+
+            @media (max-width: 768px){
+                width: 100%;
+                margin: 0px auto;
+            }
 
             .branding{
                 display: flex;
@@ -151,9 +176,32 @@ export default {
             background-color: #eee;
             top: 0;
             left: 0;
+            z-index: 99;
 
             .link{
                   padding: 15px 0;
+            }
+
+            .header{
+                text-align: center;
+                font-size: 24px;
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+            .col-1{
+                position: absolute;
+                bottom: 0;
+
+                ul li{
+                    margin-right: 6px;
+                    display: inline;
+                }
+
+                .svg-icon{
+                    width: 25px;
+
+                }
             }
         }
 

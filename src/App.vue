@@ -1,19 +1,24 @@
 <template>
   <div class="app-wrapper">
     <div class="app">
-      <Navigation/>
+      <div class="nav-wrapper">
+           <Navigation/>
+      </div>
       <router-view />
+      <Footer/>
     </div>
   </div>
 </template>
 
 <script>
 import Navigation from "./components/Navigation.vue"
+import Footer from "./components/Footer.vue"
 
 export default {
   name: "app",
   components:{
       Navigation,
+      Footer
   },
 
   data() {
@@ -69,4 +74,100 @@ export default {
 .link-light {
   color: #fff;
 }
+
+.arrow{
+    margin-left: 8px;
+    width: 12px;
+    path{
+        fill:#000;
+    }
+}
+
+.arrow-light{
+    path{
+        fill: #fff ;
+    }
+}
+
+.button,
+.router-button{
+    transition: 500;
+    cursor: pointer;
+    margin-top: 24px;
+    padding: 12px 24px;
+    background: #303030;
+    color: #fff;
+    border-radius: 20px;
+    border: none;
+    text-transform: uppercase;
+
+
+    &:focus{
+      outline: none;
+    }
+
+    &:hover{
+       background: rgb(81, 81, 185);
+    }
+}
+
+.button-ghost{
+  color: #000;
+  padding: 0;
+  border-radius: 0;
+  margin-top: 50px;
+  font-size: 15px;
+  font-weight: 500;
+  background: transparent ;
+
+  @media (min-width: 768px) {
+      margin-top: 0;
+      margin-left: auto;
+  }
+
+  i{
+    margin-left: 8px;
+  }
+}
+
+.button-light{
+  background-color: transparent ;
+  border: 2px solid #fff;
+  color: #fff;
+}
+
+.button-inactive{
+   pointer-events: none !important;
+   cursor: none !important;
+   background-color: green;
+}
+
+.blog-card-wrap{
+    position: relative;
+    padding: 80px 16px;
+    background-color: #f1f1f1;
+
+    @media (min-width:450px) {
+       padding: 100px 16px;
+    }
+
+    .blog-cards{
+       display: grid;
+       gap: 32px;
+       grid-template-columns: 1fr;
+
+       @media (min-width: 450px) {
+           grid-template-columns: repeat(2 , 1fr);
+       }
+
+       @media (min-width: 900px) {
+           grid-template-columns: repeat(3 , 1fr);
+       }
+
+       @media (min-width: 1200px) {
+           grid-template-columns: repeat(4 , 1fr);
+       }
+    }
+}
+
 </style>
