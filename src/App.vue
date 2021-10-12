@@ -2,10 +2,10 @@
   <div class="app-wrapper">
     <div class="app">
       <div class="nav-wrapper">
-           <Navigation/>
+           <Navigation v-if="!NavigationDisabled"/>
       </div>
       <router-view />
-      <Footer/>
+      <Footer v-if="!NavigationDisabled"/>
     </div>
   </div>
 </template>
@@ -22,11 +22,13 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+       NavigationDisabled: null
+    };
   },
 
   created(){
-
+      this.checkRoute();
   },
 
   mounted(){
@@ -34,11 +36,18 @@ export default {
   },
 
   methods:{
-
+      checkRoute(){
+        if(this.$route.name === "Login" || this.$route.name === "Register" || this.$route.name === "ForgotPassword"){
+            this.NavigationDisabled = true;
+            return;
+        }this.NavigationDisabled = false;
+      }
   },
 
   watch:{
-
+      $route(){
+        this.checkRoute();
+      }
   },
 };
 </script>
