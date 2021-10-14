@@ -13,6 +13,9 @@
 <script>
 import Navigation from "./components/Navigation.vue"
 import Footer from "./components/Footer.vue"
+import firebase from "firebase/app";
+import "firebase/auth";
+
 
 export default {
   name: "app",
@@ -29,6 +32,7 @@ export default {
 
   created(){
       this.checkRoute();
+      console.log(firebase.auth().currentUser.uid);
   },
 
   mounted(){
@@ -53,6 +57,8 @@ export default {
 </script>
 
 <style lang="scss">
+
+
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 
 * {
@@ -61,6 +67,7 @@ export default {
   box-sizing: border-box;
   font-family: "Quicksand", sans-serif;
 }
+
 
 .app {
   display: flex;
@@ -179,4 +186,20 @@ export default {
     }
 }
 
+.error{
+    background: #e74e3c;
+    color: #eee;
+    text-align: center;
+    border-radius:5px;
+    width: 100%;
+    max-width: 350px;
+    padding: 7px;
+    transition: .5s ease all;
+    visibility: hidden;
+    font-size: 10px;
+}
+
+.error-show{
+    visibility: visible ;
+}
 </style>

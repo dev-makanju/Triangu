@@ -4,7 +4,7 @@
             <div class="welcome-1">
                  <h1>{{ post.title }}</h1>
                  <div class="welcome-1-link-wrapper">
-                    <router-link class="link link-wrapper" to="#">
+                    <router-link class="link link-wrapper" :to="{name :'Login'}">
                        Sign in/ Sign up
                     </router-link>
                     <Arrows class="arrow arrow-light"/>

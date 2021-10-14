@@ -9,7 +9,7 @@
                 <router-link class="link" :to="{name :'Home'}">Home</router-link>
                 <router-link class="link" :to="{name :'Blogs'}">Blogs</router-link>
                 <router-link class="link" to="#">Create Posts</router-link>
-                <router-link class="link" to="#">Login/Register</router-link>
+                <router-link class="link" :to="{name :'Login'}">Login/Register</router-link>
              </ul>
          </div>
      </nav>
@@ -19,7 +19,7 @@
                 <router-link class="link" :to="{name :'Home'}">Home</router-link>
                 <router-link class="link" :to="{name :'Home'}">Blogs</router-link>
                 <router-link class="link" to="#">Create Posts</router-link>
-                <router-link class="link" to="#">Login/Register</router-link>
+                <router-link class="link" :to="{name :'Blogs'}">Login/Register</router-link>
 
                 <div class="col-1">
                     <router-link class="header" :to="{name:'Home'}">Triangu</router-link>
@@ -83,7 +83,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    header {
+    header{
         background-color: rgb(8, 8, 102);
         padding: 0 25px;
         z-index: 99;
