@@ -31,8 +31,17 @@ export default {
   },
 
   created(){
+      //listen to whenever there is an auth state change to 
+      //fire the action setprofileinfo in store action
+      //user parameter is used to know if user is authenticated;
+      firebase.auth().onAuthStateChanged( (user) => {
+          this.$store.commit("updateUser" , user);
+          if(user){
+             this.$store.dispatch("getCurrentUser");
+             console.log(this.$store.state.profileEmail);
+          }
+      })
       this.checkRoute();
-      console.log(firebase.auth().currentUser.uid);
   },
 
   mounted(){
