@@ -1,16 +1,16 @@
 <template>
-      <div class="blog-wrapper no-user">
+      <div v-scrollanimation class="blog-wrapper no-user">
            <div class="blog-content">
                <div>
-                   <h1>{{ post.title }}</h1>
-                   <p class="content-preview">{{ post.blogHTML }}</p>
+                   <h1>{{ post.blogTitle }}</h1>
+                   <p class="content-preview" v-html="post.blogHTML"></p>
                    <router-link class="link" to="#">
                         View the post<Arrows class="arrow"/>
                    </router-link>
                </div>
            </div>
            <div class="blog-photo">
-                <img  :src="require(`../assets/blogPhotos/${post.blogCoverPhoto}.jpg`)" alt="">
+                <img  :src="post.blogCoverPhoto" alt="">
             </div>
       </div>
 </template>
@@ -34,6 +34,16 @@ export default {
     display: flex;
     flex-direction: column ;
     box-shadow: 0px 4px 6px -1px rgba( 0 , 0 , 0 , .1) , 0 2px 4px -1px rgba(0 , 0 , 0 , .6);
+    &.before-enter{
+         opacity: 0;
+         transform: translateY(100px);
+         transition: .2s ease-in-out all;
+    }
+
+    &.enter{  
+        opacity: 1;
+        transform: translateX(0px);
+    }
     @media (min-width: 769px){
         flex-direction: row;
         max-height: 400px;

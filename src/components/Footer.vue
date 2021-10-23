@@ -17,7 +17,7 @@
                     <ul>
                          <router-link class="link" :to="{name:'home'}">Home</router-link>
                          <router-link class="link" :to="{name:'blogs'}"></router-link>
-                         <router-link class="link" :to="{name:'newposts'}">Create Post</router-link>
+                         <router-link class="link" :to="{name:'CreatePost'}">Create Post</router-link>
                          <router-link class="link" :to="{name:'auth'}">
                              Login in / Register
                          </router-link>

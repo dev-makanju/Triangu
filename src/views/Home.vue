@@ -1,13 +1,12 @@
 <template>
   <div class="home">
-       <Welcome :post="welcomeScreen"/>
-       <BlogPost :post="welcomeScreen"/>
-       <BlogPost :post="post" v-for="(post , index) in sampleBlogPost" :key="index"/>
+       <Welcome v-if="!user" :post="welcomeScreen"/>
+       <BlogPost :post="post" v-for="(post , index) in blogPostFeeds " :key="index"/>
        <div class="blog-card-wrap">
             <div class="container">
                <h2>View more recent posts</h2>
                <div class="blog-cards">
-                    <BlogCards :post="post" v-for="(post , index) in sampleBlogCards" :key="index"/>
+                    <BlogCards :post="post" v-for="(post , index) in blogPostsCards" :key="index"/>
                </div>
             </div>
        </div>
@@ -39,30 +38,26 @@ export default {
            welcomeScreen:true,
            photo:"man-preview"
        },
-       sampleBlogPost:[
-         {
-             title:'This is a filter title',
-             blogHTML:'this is blog html',
-             blogCoverPhoto: 'robot'
-         }, 
-         {
-             title:'This is a filter title2',
-             blogHTML:'this is blog html2',
-             blogCoverPhoto: 'software-developer'
-         }
-       ]
       }
    },
    computed:{
-       sampleBlogCards(){
-          return this.$store.state.sampleBlogCards
+       blogPostsCards(){
+          return this.$store.getters.blogPostsCards
+       },
+       blogPostFeeds(){
+          return this.$store.getters.blogPostFeeds
+       },
+       user(){
+          return this.$store.state.user;
        }
+    
    }
 }
 </script>
 
 <style lang="scss" scoped>
 .blog-card-wrap{
+   
     h2{
         font-size: 30px;
         font-weight: 600;

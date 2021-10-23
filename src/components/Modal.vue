@@ -25,7 +25,7 @@
     justify-content: center;
     align-items: center;
     z-index: 101;
-    position: absolute ;
+    position: absolute;
     width: 100%;
     height: 100%;
     top: 0;

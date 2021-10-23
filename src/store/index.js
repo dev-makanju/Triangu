@@ -8,29 +8,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-       sampleBlogCards:[
-         {
-            blogTitle:"Blog Card #1",
-            blogCoverPhoto: "stock-1",
-            blogDate:"May 1, 2021"
-             
-         },
-         {
-            blogTitle:"Blog Card #2",
-            blogCoverPhoto: "stock-1",
-            blogDate:"May 2, 2022"
-         },
-         {
-            blogTitle:"Blog Card #3",
-            blogCoverPhoto: "stock-1",
-            blogDate:"May 3, 2021"
-         },
-         {
-            blogTitle:"Blog Card #4",
-            blogCoverPhoto: "stock-1",
-            blogDate:"May 4, 2021"
-         }
-       ],
+       blogPosts: [],
+       postLoaded:null,
+       //create nlog content
+       blogHTML:"write your blog title here...",
+       blogTitle:"",
+       blogPhotoName:"",
+       blogPhotoFileUrl: null,
+       blogPhotoPreview:null,
        editPost:null,
        //since we are going to be using this in multiple places
        //the best practises it to use state management
@@ -42,7 +27,38 @@ export default new Vuex.Store({
        profileId:null,
        profileInitials:null
   },
+  getters: {
+      blogPostFeeds(state){
+         return state.blogPosts.slice(0 , 2)
+      },
+      blogPostsCards(state){
+         return state.blogPosts.slice(2 , 6)
+      }
+  },
   mutations: {
+    showPreviewPhoto(state){
+        state.blogPhotoPreview = true; 
+    },
+
+    openPhotoPreview(state){
+        state.blogPhotoPreview = !state.blogPhotoPreview
+    },
+   
+     //mutation for pics uplaod
+     updateFileName(state , payload){
+         state.blogPhotoName = payload;
+     },
+     createFileUrl(state , payload){
+         state.blogPhotoFileUrl = payload
+     },
+     //updateBlogPost and blogHTML
+     updateBlogTitle(state , payload){
+        state.blogTitle = payload;
+     },
+     newBlogPost(state , payload){
+        state.blogHTML = payload;
+     },
+
      toggleEditPost(state , payload){
         state.editPost = payload
      },
@@ -58,7 +74,17 @@ export default new Vuex.Store({
      },
      setProfileInitials(state){
         state.profileInitials = 
-        state.profileFirstName.match(/(\b\S)?/g);
+        state.profileFirstName.match(/(\b\S)?/g).join("");
+     },
+     //update users profiles
+     updateFirstName(state , payload){
+        state.profileFirstName = payload;
+     },
+     updateLastName(state , payload){  
+        state.profileLastName = payload;
+     },
+     updateUsername(state , payload){
+        state.profileUserName = payload;
      }
   },
   actions: {
@@ -70,8 +96,35 @@ export default new Vuex.Store({
         commit("setProfileInfo" , dbResult);
         commit("setProfileInitials");
         console.log(dbResult);
-     }
-
+     },
+     async updateUserProfile({commit , state}){
+      const dataBase = await db.collection("user").doc(state.profileId);
+      await dataBase.update({
+         firstName:state.profileFirstName,
+         lastName:state.profileLastName,
+         userName:state.profileUserName
+      });
+      commit("setProfileInitials");
+     },
+     async getPost({state}){
+         const dataBase = await db.collection("blogPosts").orderBy("date" , 'desc');
+         const dataBaseResults = await dataBase.get();
+         dataBaseResults.forEach( (doc) => {
+            if(!state.blogPosts.some(post => post.blogId === doc.id)){
+                  const data = {
+                     blogID:doc.id,
+                     blogHTML: doc.data().blogHTML,
+                     blogCoverPhoto: doc.data().blogCoverPhoto,
+                     blogCoverPhotoName: doc.data().blogCoverPhotoName,
+                     blogTitle:doc.data().blogTitle,
+                     BlogDate: doc.data().date
+                  }
+                  state.blogPosts.push(data);
+            }
+         });
+         state.postLoaded = true;
+         console.log(state.blogPosts); 
+     },
   },
   modules: {
   }

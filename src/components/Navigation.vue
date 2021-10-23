@@ -8,18 +8,49 @@
              <ul v-show="!isMobile">
                 <router-link class="link" :to="{name :'Home'}">Home</router-link>
                 <router-link class="link" :to="{name :'Blogs'}">Blogs</router-link>
-                <router-link class="link" to="#">Create Posts</router-link>
-                <router-link class="link" :to="{name :'Login'}">Login/Register</router-link>
+                <router-link  class="link" :to="{name:'CreatePost'}">Create Posts</router-link>
+                <router-link v-if="!user" class="link" :to="{name :'Login'}">Login/Register</router-link>
              </ul>
+             <div v-if="user" @click="toggleProfileTab" class="profile" ref="profile">
+                   <span>{{ this.$store.state.profileInitials }}</span>
+                   <div v-show="profileTab" class="profile-menu">
+                       <div class="info">
+                           <p class="initials">{{ this.$store.state.profileInitials }}</p>
+                           <div class="right">
+                               <p>{{ this.$store.state.profileFirstName }} {{ this.$store.state.profileLastName }}</p>
+                               <p>{{ this.$store.state.profileUserName }}</p>
+                               <p>{{ this.$store.state.profileEmail }}</p>
+                           </div>
+                       </div>
+                       <div class="options">
+                           <div class="option">
+                               <router-link class="option" :to="{name:'Profile'}">
+                                   <userIcon class="icon"/>
+                                   <p>Profile</p> 
+                               </router-link>
+                           </div>
+                           <div class="option">
+                               <router-link class="option" :to="{name:'Admin'}">
+                                   <adminIcon class="icon"/>
+                                   <p>Admin</p>
+                               </router-link>
+                           </div>
+                           <div @click="signOut" class="option">
+                                <signOutIcon class="icon"/>
+                                <p>Sign Out</p>
+                           </div>
+                       </div>
+                   </div>
+             </div> 
          </div>
      </nav>
      <menuIcon @click="toggleNavbar" class="menu-icon" v-show="isMobile"/>
      <transition name="mobile-nav">
             <ul class="mobile-nav" v-show="showMobileNavbar">
                 <router-link class="link" :to="{name :'Home'}">Home</router-link>
-                <router-link class="link" :to="{name :'Home'}">Blogs</router-link>
-                <router-link class="link" to="#">Create Posts</router-link>
-                <router-link class="link" :to="{name :'Blogs'}">Login/Register</router-link>
+                <router-link class="link" :to="{name :'Blogs'}">Blogs</router-link>
+                <router-link class="link" :to="{name:'CreatePost'}">Create Posts</router-link>
+                <router-link class="link" :to="{name :'Login'}">Login/Register</router-link>
 
                 <div class="col-1">
                     <router-link class="header" :to="{name:'Home'}">Triangu</router-link>
@@ -38,28 +69,37 @@
 </template>
 
 <script>
+import signOutIcon from "../assets/Icons/sign-out-alt-regular.svg"
+import userIcon from "../assets/Icons/user-alt-light.svg"
+import adminIcon from "../assets/Icons/user-crown-light.svg"
 import menuIcon from "../assets/Icons/bars-regular.svg";
 import twitter from "../assets/Icons/twitter-brands.svg"
 import linkedIn from "../assets/Icons/linkedin-brands.svg"
+import firebase from "firebase/app";
+import "firebase/auth";
 
 export default {
     name: "Navigation",
     components:{
         menuIcon,
         twitter,
-        linkedIn
+        linkedIn, 
+        signOutIcon,
+        userIcon,
+        adminIcon
     },
     data(){
         return{
             isMobile:null,
             showMobileNavbar:null,
-            browserWidth: null
+            browserWidth: null,
+            profileTab:null
         }
     },
 
     created(){
         addEventListener('resize' , this.checkMobileDevice),
-        this.checkMobileDevice;
+        this.checkMobileDevice();
     },
 
     methods:{
@@ -73,8 +113,25 @@ export default {
             this.isMobile = false;
             return;
         },
+
         toggleNavbar(){
             this.showMobileNavbar = !this.showMobileNavbar;
+        },
+
+        toggleProfileTab(e){
+            if(e.target === this.$refs.profile){
+                this.profileTab = !this.profileTab;
+            }
+        },
+
+        signOut(){
+            firebase.auth().signOut();
+            window.location.reload();
+        }
+    },
+    computed:{
+        user(){
+            return this.$store.state.user;
         }
     }
 
@@ -145,6 +202,103 @@ export default {
                    .link:last-child{
                         margin-right: 0;
                    }
+                }
+
+                .profile{
+                    position: relative;
+                    display: flex;
+                    cursor: pointer;
+                    align-items: center;
+                    justify-content: center ;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    color:  rgb(8, 8, 102);
+                    background-color: #eee;
+
+                    @media (max-width: 768px) {
+                        margin-right: 30px;
+                    }
+                    
+                    span{
+                        font-weight: 800;
+                        font-size: 24px;
+                        pointer-events: none;
+                    }
+
+                    .profile-menu{
+                        position: absolute;
+                        top: 60px;
+                        right: 0;
+                        width: 350px;
+                        background-color: #eee;
+                        box-shadow: 0px 2px 5px rgba(0 , 0 , 0 , .3);
+                        z-index: 1111;
+
+                        @media (max-width: 450px){
+                             width: 250px;
+                        }
+
+                        .info{
+                            display: flex;
+                            align-items: center;
+                            padding: 15px;
+                            border-bottom: 2px solid rgb(8, 8, 102);
+
+                            .initials{
+                                display: flex;
+                                position: initials;
+                                width: 40px;
+                                height: 40px;
+                                background-color:  rgb(8, 8, 102);
+                                color: #eee;
+                                align-items: center;
+                                justify-content: center;
+                                border-radius: 50%;
+                            }
+
+                            .right{
+                                flex: 1;
+                                margin-left: 24px;
+                                
+                                p:nth-child(1){
+                                    font-size: 14px;
+                                    font-weight:500;
+                                }
+
+                                p:nth-child(2),
+                                p:nth-child(3){
+                                    font-size: 12px;
+                                }
+
+                            }
+                        }
+
+                        .options{
+                            padding: 15px;
+                            .option{
+                                display: flex;
+                                color:  rgb(8, 8, 102);
+                                align-items: center;
+                                text-decoration: none;
+                                margin-bottom: 12px;
+
+                                .icon{
+                                    width: 18px;
+                                    height: auto;
+                                }
+
+                                p{
+                                    font-size: 14px;
+                                    margin-left: 12px;
+                                }
+                            }
+
+                            .option:last-child{
+                                margin-bottom: 0px;
+                            }
+                        }
+                    }
                 }
 
             } 

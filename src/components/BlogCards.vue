@@ -1,5 +1,5 @@
 <template>
-    <div class="blog-card">
+    <div v-scrollanimation class="blog-card">
         <div v-show="editPost" class="icons">
             <div class="icon">
                  <Edit/>
@@ -8,10 +8,10 @@
                  <Delete/>
             </div>
         </div>
-        <img :src="require(`../assets/blogCards/${post.blogCoverPhoto}.jpg`)" alt="">
+        <img :src="post.blogCoverPhoto" alt="">
         <div class="info">
             <h4>{{ post.blogTitle }}</h4>
-            <h6>Posted on: {{ post.blogDate }}</h6>
+            <h6>Posted on: {{ new Date(post.BlogDate).toLocaleString('en-us' , {dateStyle: "long"} ) }}</h6>
             <router-link class="link" to="#">
                  View The Post <Arrow class="arrow"/>
             </router-link>
@@ -53,6 +53,19 @@ export default{
         min-height: 420px;
         transition: .5s ease all;
         box-shadow: 0px 4px 6px -1px rgba( 0 , 0 , 0 , .1) , 0 2px 4px -1px rgba(0 , 0 , 0 , .6);
+
+        @media (max-width: 450px) {
+            &.before-enter{
+                opacity: 0;
+                transform: scale(.5) scale(.2) rotateZ(-25deg);
+                transition: .3s ease-in-out all; 
+            }
+
+            &.enter{
+                opacity: 1;
+                transform: scale(1) rotateZ(0deg);;
+            }
+        }
 
         &:hover{
             transform: rotateZ(-1deg) scale(1.01);

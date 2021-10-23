@@ -44,7 +44,7 @@ import "firebase/auth";
             resetPassword(){
                 if(this.email !== ""){
                     this.loading = true;
-                    firebase.auth().sendPasswordResetEmail(this.email).then(()=> {
+                    firebase.auth().sendPasswordResetEmail(this.email).then(() => {
                     this.modalMessage = "You will recieve an email shortly, if your account exist!"
                     this.loading = false;
                     this.modalActive =true
@@ -56,9 +56,9 @@ import "firebase/auth";
                   });
                   return;
                }else{
-                this.modalMessage = "Oops!!! input feild is required"
-                this.modalActive = true
-                return;
+                  this.modalMessage = "Oops!!! input feild is required"
+                  this.modalActive = true
+                  return;
                }
             },
             closeModal(){
