@@ -1,11 +1,12 @@
 <template>
-  <div class="app-wrapper">
-    <div class="app">
-      <div class="nav-wrapper">
-           <Navigation v-if="!NavigationDisabled"/>
-      </div>
-      <router-view />
-      <Footer v-if="!NavigationDisabled"/>
+  <div>
+    <div class="app" v-if="this.$store.state.postLoaded">
+        <div v-if="NavActive" class="overlay" @click="closeNav"></div>    
+          <div class="nav-wrapper">
+              <Navigation v-if="!NavigationDisabled" @toggle-navbar="showContainerOverlay"  @close-overlay="closeOverlay"/>
+          </div>
+          <router-view />
+          <Footer v-if="!NavigationDisabled"/>
     </div>
   </div>
 </template>
@@ -17,16 +18,17 @@ import firebase from "firebase/app";
 import "firebase/auth";
 
 
-export default {
+export default{
   name: "app",
   components:{
       Navigation,
       Footer
   },
 
-  data() {
+  data() {  
     return {
-       NavigationDisabled: null
+       NavigationDisabled: null,
+       NavActive:null
     };
   },
 
@@ -54,6 +56,15 @@ export default {
             this.NavigationDisabled = true;
             return;
         }this.NavigationDisabled = false;
+      },
+      showContainerOverlay(){
+          this.NavActive = !this.NavActive;
+      },
+      closeNav(){
+          this.NavActive = !this.NavActive
+      },
+      closeOverlay(){
+        this.NavActive = !this.NavActive
       }
   },
 
@@ -82,12 +93,15 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
 }
+
 
 .container {
   max-width: 1440px;
   margin: 0 auto;
 }
+
 
 .link {
   cursor: pointer;

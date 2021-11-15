@@ -35,7 +35,6 @@ export default {
          height: 400px;
          background:  rgb(8, 8, 102);
          overflow: hidden;
-
          &-1 {
 
              .images-welcome{

@@ -1,19 +1,19 @@
 <template>
     <div v-scrollanimation class="blog-card">
         <div v-show="editPost" class="icons">
-            <div class="icon">
+            <div class="icon" @click="editBlog">
                  <Edit/>
             </div>
-            <div class="icon">
+            <div class="icon" @click="deletePost">
                  <Delete/>
             </div>
         </div>
         <img :src="post.blogCoverPhoto" alt="">
         <div class="info">
-            <h4>{{ post.blogTitle }}</h4>
+            <h3>{{ post.blogTitle }}</h3>
             <h6>Posted on: {{ new Date(post.BlogDate).toLocaleString('en-us' , {dateStyle: "long"} ) }}</h6>
-            <router-link class="link" to="#">
-                 View The Post <Arrow class="arrow"/>
+            <router-link class="link" :to="{name:'ViewBlog' , params:{blogid:this.post.blogID}} ">
+                View The Post <Arrow class="arrow"/>
             </router-link>
         </div>
     </div>
@@ -34,6 +34,15 @@ export default{
         Edit,
         Delete
     },
+    methods:{
+        deletePost(){
+             this.$store.dispatch("deletePost" , this.post.blogID)
+        },
+        editBlog(){
+            this.$router.push({name:'EditPost' , params:{blogid: this.post.blogID }})
+        }
+
+    },
     computed:{
         editPost(){
             return this.$store.state.editPost;
@@ -50,9 +59,12 @@ export default{
         flex-direction: column;
         border-radius: 8px;
         background-color: #eee;
+        height: 400px;
         min-height: 420px;
-        transition: .5s ease all;
+        transition: .5s ease all    ;
         box-shadow: 0px 4px 6px -1px rgba( 0 , 0 , 0 , .1) , 0 2px 4px -1px rgba(0 , 0 , 0 , .6);
+
+    
 
         @media (max-width: 450px) {
             &.before-enter{

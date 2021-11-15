@@ -47,13 +47,21 @@
      <menuIcon @click="toggleNavbar" class="menu-icon" v-show="isMobile"/>
      <transition name="mobile-nav">
             <ul class="mobile-nav" v-show="showMobileNavbar">
-                <router-link class="link" :to="{name :'Home'}">Home</router-link>
-                <router-link class="link" :to="{name :'Blogs'}">Blogs</router-link>
-                <router-link class="link" :to="{name:'CreatePost'}">Create Posts</router-link>
-                <router-link class="link" :to="{name :'Login'}">Login/Register</router-link>
+                <li class="user-nav" @click="close">
+                    <router-link class="link" :to="{name :'Home'}">Home</router-link>
+                </li>
+                <li class="user-nav" @click="close">
+                    <router-link @click="$emit('disable-overlay')" class="link" :to="{name :'Blogs'}">Blogs</router-link>
+                </li>
+                <li class="user-nav" @click="close">
+                     <router-link class="link" :to="{name:'CreatePost'}">Create Posts</router-link>
+                </li>
+                <li class="user-nav" @click="close">
+                     <router-link class="link" :to="{name :'Login'}">Login/Register</router-link>
+                </li>
 
                 <div class="col-1">
-                    <router-link class="header" :to="{name:'Home'}">Triangu</router-link>
+                    <router-link class="header" :to="{name:'Home'}" style="color:blue">Triangu</router-link>
                     <ul>
                          <li>
                              <a href="#"><twitter class="svg-icon"/></a>
@@ -61,10 +69,14 @@
                          <li>
                              <a href="#"><linkedIn class="svg-icon"/></a>
                          </li>
+                          <li>
+                             <a href="#"><linkedIn class="svg-icon"/></a>
+                         </li>
                     </ul>
                 </div>
              </ul>
      </transition>
+     <div v-if="showMobileNavbar" class="overlay" @click="closeNav"></div>  
 </header>
 </template>
 
@@ -113,21 +125,38 @@ export default {
             this.isMobile = false;
             return;
         },
-
         toggleNavbar(){
             this.showMobileNavbar = !this.showMobileNavbar;
+            this.$emit('toggle-navbar');
         },
-
+        close(){
+            this.showMobileNavbar = !this.showMobileNavbar
+            this.$emit("close-overlay")
+        },
         toggleProfileTab(e){
             if(e.target === this.$refs.profile){
                 this.profileTab = !this.profileTab;
             }
         },
-
+        closeNav(){
+            this.showMobileNavbar = !this.showMobileNavbar
+        },
         signOut(){
             firebase.auth().signOut();
             window.location.reload();
         }
+    },
+    watch: {
+        showMobileNavbar: function(){
+            if(this.showMobileNavbar){
+                document.documentElement.style.overflow = 'hidden'
+                return;
+            }
+            document.documentElement.style.overflow = 'auto'
+        },
+        // $router(to , from){
+        //      document.documentElement.style.overflow = null;
+        // }
     },
     computed:{
         user(){
@@ -140,6 +169,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .overlay{
+  position: fixed;
+  top: 0;
+  background: rgba(0 , 0 , 0 , .5);
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+} 
     header{
         background-color: rgb(8, 8, 102);
         padding: 0 25px;
@@ -148,9 +185,12 @@ export default {
         .link{
             font-weight: 600;
             padding: 0 4px;
-            :hover{
+            &:hover{
                 color: blue;
                 transition: .2s all; 
+            }
+            &.router-link-exact-active{
+                color: blue;
             }
         }
 
@@ -197,6 +237,13 @@ export default {
                    .link{
                        margin-right:32px;
                        color: #eee;
+
+                       &:hover{
+                           color: rgb(247, 247, 95);
+                       }
+                       &.router-link-exact-active{
+                           color: rgb(247, 247, 95);
+                       }
                    }
 
                    .link:last-child{
@@ -334,6 +381,11 @@ export default {
 
             .link{
                   padding: 15px 0;
+            }
+
+            .user-nav{
+                list-style-type: none;
+                padding: 10px 5px;
             }
 
             .header{

@@ -7,9 +7,10 @@ import Register from "../views/Register.vue";
 import ForgotPassword from "../views/ForgotPassword.vue";
 import Profile from "../views/Profile.vue";
 import Admin from "../views/Admin.vue";
-import CreatePost from "../views/CreatePost.vue"
-import BlogPreview from "../views/BlogPreview.vue"
+import CreatePost from "../views/CreatePost.vue";
+import BlogPreview from "../views/BlogPreview.vue";
 import ViewBlog from "../views/ViewBlog.vue";
+import EditBlog from "../views/EditBlog.vue";
 
 Vue.use(VueRouter);
 
@@ -79,6 +80,14 @@ const routes = [
     }
   },
   {
+    path: "/edit-post/:blogid",
+    name: "EditPost",
+    component: EditBlog,
+    meta:{
+      title:"Edit Post"
+    }
+  },
+  {
     path: "/post-preview",
     name: "BlogPreview",
     component: BlogPreview,
@@ -87,7 +96,7 @@ const routes = [
     }
   },
   {
-    path: "/view-blog",
+    path: "/view-blog/:blogid",
     name: "ViewBlog",
     component: ViewBlog,
     meta:{

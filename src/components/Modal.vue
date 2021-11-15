@@ -20,6 +20,7 @@
 </script>
 
 <style lang="scss" scoped>
+
 .modal{
     display: flex;
     justify-content: center;

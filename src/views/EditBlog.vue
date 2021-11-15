@@ -19,8 +19,8 @@
                  <vue-editor :editorOptions="editorSettings" v-model="blogHTML" useCustomImageHandler @image-added="imageHandler"/>
              </div>
              <div class="blog-actions">
-                 <button @click="uploadBlog">Publish Blog</button>
-                 <router-link :to="{name:'BlogPreview'}" class="router-button">Post Preview</router-link>
+                 <button @click="updateBlog">Save Changes</button>
+                 <router-link :to="{name:'BlogPreview'}" class="router-button">Preview Changes</router-link>
              </div>
         </div>
     </div>
@@ -29,11 +29,11 @@
 <script>
 
 import blogCoverPreview from "../components/blogCoverPreview.vue"
-import Quill from "quill";
 window.Quill = Quill;
 const ImageResize = require("quill-image-resize-module").default;
 Quill.register("modules/imageResize" , ImageResize);
 import firebase from "firebase/app";
+import Quill from "quill";
 import "firebase/storage"
 import db from "../firebase/firebaseInit"
 import Loading from "../components/Loading.vue"
@@ -49,12 +49,21 @@ import Loading from "../components/Loading.vue"
                 loading:null,
                 error: null,
                 errorMsg: null,
+                routeID: null,
+                currentBlog: null,
                 editorSettings:{
                     modules:{
                         imageResize:{},
                     }
                 }
             }
+        },
+        async mounted(){
+            this.routeID = this.$route.params.blogid;
+            this.currentBlog = await this.$store.state.blogPosts.filter( post => {
+                return post.blogID === this.routeID;
+            }); 
+            this.$store.commit('SetBlogState' , this.currentBlog[0]);
         },
         methods:{
             fileChange(){
@@ -83,7 +92,8 @@ import Loading from "../components/Loading.vue"
                 }
                 );
             },
-            uploadBlog(){
+            async updateBlog(){
+                const dataBase = db.collection("blogPosts").doc(this.routeID)
                 if(this.blogTitle.length !== 0 && this.blogHTML.length !== 0){
                      if(this.file){
                          this.loading = true
@@ -99,28 +109,27 @@ import Loading from "../components/Loading.vue"
                              this.errorMsg = err;
                          }, async () => {
                             const downloadURL = await docRef.getDownloadURL(); 
-                            const timestamp = await Date.now();
-                            const dataBase = await db.collection("blogPosts").doc()
-                            dataBase.set({
-                                blogID: dataBase.id,
+                            dataBase.update({
                                 blogHTML: this.blogHTML,
                                 blogCoverPhoto: downloadURL,
                                 blogCoverPhotoName: this.blogCoverPhotoName,
                                 blogTitle:this.blogTitle,
-                                profileId: this.profileId ,
-                                date: timestamp
                             })
-                            await this.$store.dispatch('getPost');
+                            await this.$store.dispatch('updatePost' , this.routeID);
                             this.loading = false
                             this.$router.push({name:'ViewBlog' , params:{blogid: dataBase.id }})
                          });
                          return;
                      }
-                     this.error = true;
-                     this.errorMsg = "Make sure you upload a cover photo!`;";
-                     setTimeout( () => {
-                         this.error = false;
-                     } , 5000);
+                     this.loading = true;
+                     await dataBase.update({
+                         blogHTML: this.blogHTML,
+                         blogTitle: this.blogTitle
+                     })
+
+                     await this.$store.dispatch('updatePost' , this.routeID)
+                     this.loading = false;
+                     this.$router.push({name:"ViewBlog" , params:{blogid:dataBase.id}});
                      return;
                 }
                 this.error = true;
@@ -128,14 +137,6 @@ import Loading from "../components/Loading.vue"
                 setTimeout( () => {
                     this.error = false;
                 } , 5000)
-            }
-        },
-        watch:{
-            loading: function(){
-                if(this.loading){
-                    document.documentElement.style.overflow = 'hidden'
-                    return;
-                }document.documentElement.style.overflow = 'auto' 
             }
         },
         computed:{
@@ -198,23 +199,12 @@ import Loading from "../components/Loading.vue"
         background:  rgb(8, 8, 102)  ;
         text-decoration: none;
         border: none;
-
-        @media  (max-width: 600px) {
-            width: 100%;
-            text-align: center;
-        }
-
-
-        @media  (max-width: 450px) {
-            width: 100%;
-            margin: 4px;
-        }
     }
 
     .container{
         position: relative;
         height: 100%;
-        padding: 20px 25px 60px;
+        padding: 10px 25px 60px;
 
         @media (min-width: 900px){
             width: 80%;
@@ -248,12 +238,6 @@ import Loading from "../components/Loading.vue"
         display: flex;
         margin-bottom: 32px;
 
-
-        @media (max-width: 600px){
-            flex-direction: column;
-            
-        }
-
         input:nth-child(1){
             min-width: 300px;
         }
@@ -275,15 +259,6 @@ import Loading from "../components/Loading.vue"
             margin-left: 16px;
             position: relative;
             display: flex;
-            box-sizing: border-box;
-
-            @media (max-width: 450px) {
-                flex-direction: column;
-                margin: 0;
-                justify-content: flex-start;
-
-
-            }
 
             input{
                 display: none;
