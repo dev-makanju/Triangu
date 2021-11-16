@@ -83,6 +83,10 @@ import Loading from "../components/Loading.vue"
                 }
                 );
             },
+            convertTitleToSlug(title){   
+                this.slug = title.toLocaleString().replace(/\s+/g, "-");
+                return this.slug;
+            },
             uploadBlog(){
                 if(this.blogTitle.length !== 0 && this.blogHTML.length !== 0){
                      if(this.file){
@@ -107,12 +111,13 @@ import Loading from "../components/Loading.vue"
                                 blogCoverPhoto: downloadURL,
                                 blogCoverPhotoName: this.blogCoverPhotoName,
                                 blogTitle:this.blogTitle,
-                                profileId: this.profileId ,
+                                slug:this.convertTitleToSlug(this.blogTitle),
+                                profileId: this.profileId,
                                 date: timestamp
                             })
                             await this.$store.dispatch('getPost');
                             this.loading = false
-                            this.$router.push({name:'ViewBlog' , params:{blogid: dataBase.id }})
+                            this.$router.push({name:'ViewBlog' , params:{slug: dataBase.slug}})
                          });
                          return;
                      }

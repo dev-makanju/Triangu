@@ -6,6 +6,7 @@ import Vue2Editor from "vue2-editor";
 import firebase from "firebase/app";
 import "firebase/auth";
 import  scrollAnimation from './directives/scrollanimation'
+import 'animate.css'
 
 Vue.directive('scrollanimation' , scrollAnimation)
 

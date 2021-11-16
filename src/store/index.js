@@ -25,6 +25,7 @@ export default new Vuex.Store({
        profileLastName:null,
        profileUserName:null,
        profileId:null,
+       userRole: null,
        profileInitials:null
   },
   getters: {
@@ -84,6 +85,9 @@ export default new Vuex.Store({
         state.profileInitials = 
         state.profileFirstName.match(/(\b\S)?/g).join("");
      },
+     setCurrentUserRole(state , doc){
+        state.userRole = doc.data().Role
+     },
      //update users profiles
      updateFirstName(state , payload){
         state.profileFirstName = payload;
@@ -103,7 +107,7 @@ export default new Vuex.Store({
         const dbResult = await dataBase.get();
         commit("setProfileInfo" , dbResult);
         commit("setProfileInitials");
-        console.log(dbResult);
+        commit('setCurrentUserRole' , dbResult)
      },
      async updateUserProfile({commit , state}){
       const dataBase = await db.collection("user").doc(state.profileId);
@@ -117,7 +121,7 @@ export default new Vuex.Store({
      async getPost({state}){
          const dataBase = await db.collection("blogPosts").orderBy("date" , 'desc');
          const dataBaseResults = await dataBase.get();
-         dataBaseResults.forEach( (doc) => {
+         dataBaseResults.forEach((doc) => {
             if(!state.blogPosts.some(post => post.blogId === doc.id)){
                   const data = {
                      blogID:doc.id,
@@ -125,6 +129,7 @@ export default new Vuex.Store({
                      blogCoverPhoto: doc.data().blogCoverPhoto,
                      blogCoverPhotoName: doc.data().blogCoverPhotoName,
                      blogTitle:doc.data().blogTitle,
+                     slug:doc.data().slug,
                      BlogDate: doc.data().date,
                   }
                   state.blogPosts.push(data);
@@ -140,10 +145,8 @@ export default new Vuex.Store({
       async updatePost({commit , dispatch} , payload){
          commit('filterBlogPost' , payload);
          await dispatch('getPost')
-
       }
   },
-
   modules: {
   }
 })

@@ -8,7 +8,7 @@
              <ul v-show="!isMobile">
                 <router-link class="link" :to="{name :'Home'}">Home</router-link>
                 <router-link class="link" :to="{name :'Blogs'}">Blogs</router-link>
-                <router-link  class="link" :to="{name:'CreatePost'}">Create Posts</router-link>
+                <router-link v-if="this.$store.state.userRole !== null" class="link" :to="{name:'CreatePost'}">Create Posts</router-link>
                 <router-link v-if="!user" class="link" :to="{name :'Login'}">Login/Register</router-link>
              </ul>
              <div v-if="user" @click="toggleProfileTab" class="profile" ref="profile">
@@ -29,7 +29,7 @@
                                    <p>Profile</p> 
                                </router-link>
                            </div>
-                           <div class="option">
+                           <div v-if="this.$store.state.userRole !== null" class="option">
                                <router-link class="option" :to="{name:'Admin'}">
                                    <adminIcon class="icon"/>
                                    <p>Admin</p>
@@ -53,7 +53,7 @@
                 <li class="user-nav" @click="close">
                     <router-link @click="$emit('disable-overlay')" class="link" :to="{name :'Blogs'}">Blogs</router-link>
                 </li>
-                <li class="user-nav" @click="close">
+                <li v-if="this.$store.state.userRole !== null" class="user-nav" @click="close">
                      <router-link class="link" :to="{name:'CreatePost'}">Create Posts</router-link>
                 </li>
                 <li class="user-nav" @click="close">

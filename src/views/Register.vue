@@ -58,6 +58,11 @@ export default {
                      firstName:"",
                      lastName: "",
                      Email: "",
+                     Role:{
+                          default:null,
+                          Author:'Author',
+                          Admin:'Admin'  
+                     },
                      userName: "",
                      password: "",
                      error: null,
@@ -86,6 +91,7 @@ export default {
                              firstName:this.firstName,
                              lastName:this.lastName,
                              userName:this.userName,
+                             Role:this.Role.default,
                              Email:this.Email 
                       })
                       this.loading = false;

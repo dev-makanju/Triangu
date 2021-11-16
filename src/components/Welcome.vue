@@ -2,8 +2,8 @@
     <div class="welcome">
         <div class="col-1">
             <div class="welcome-1">
-                 <h1>{{ post.title }}</h1>
-                 <div class="welcome-1-link-wrapper">
+                 <h1 class="animate__animated animate__jello">{{ post.title }}</h1>
+                 <div class="welcome-1-link-wrapper animate__animated animate__backInUp">
                     <router-link class="link link-wrapper" :to="{name :'Login'}">
                        Sign in/ Sign up
                     </router-link>

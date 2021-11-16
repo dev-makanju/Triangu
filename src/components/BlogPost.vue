@@ -4,7 +4,7 @@
                <div>
                    <h1>{{ post.blogTitle }}</h1>
                    <p class="content-preview" v-html="post.blogHTML"></p>
-                   <router-link class="link" :to="{name:'ViewBlog' , params:{blogid:post.blogID} }">
+                   <router-link class="link" :to="{name:'ViewBlog' , params:{slug:post.slug} }">
                         View the post<Arrows class="arrow"/>
                    </router-link>
                </div>

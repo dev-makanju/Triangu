@@ -59,9 +59,10 @@ import Loading from "../components/Loading.vue"
             }
         },
         async mounted(){
-            this.routeID = this.$route.params.blogid;
+            this.routeID = this.$route.params.slug;
+            console.log(this.routeID)
             this.currentBlog = await this.$store.state.blogPosts.filter( post => {
-                return post.blogID === this.routeID;
+                return post.slug === this.routeID;
             }); 
             this.$store.commit('SetBlogState' , this.currentBlog[0]);
         },
@@ -95,7 +96,7 @@ import Loading from "../components/Loading.vue"
             async updateBlog(){
                 const dataBase = db.collection("blogPosts").doc(this.routeID)
                 if(this.blogTitle.length !== 0 && this.blogHTML.length !== 0){
-                     if(this.file){
+                    if(this.file){
                          this.loading = true
                          console.log(this.loading)
                          const storageRef = firebase.storage().ref()

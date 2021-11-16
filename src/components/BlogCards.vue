@@ -12,7 +12,7 @@
         <div class="info">
             <h3>{{ post.blogTitle }}</h3>
             <h6>Posted on: {{ new Date(post.BlogDate).toLocaleString('en-us' , {dateStyle: "long"} ) }}</h6>
-            <router-link class="link" :to="{name:'ViewBlog' , params:{blogid:this.post.blogID}} ">
+            <router-link class="link" :to="{name:'ViewBlog' , params:{slug:this.post.slug}} ">
                 View The Post <Arrow class="arrow"/>
             </router-link>
         </div>
@@ -39,7 +39,7 @@ export default{
              this.$store.dispatch("deletePost" , this.post.blogID)
         },
         editBlog(){
-            this.$router.push({name:'EditPost' , params:{blogid: this.post.blogID }})
+            this.$router.push({name:'EditPost' , params:{slug: this.post.slug}})
         }
 
     },
