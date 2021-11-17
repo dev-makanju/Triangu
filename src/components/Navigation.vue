@@ -56,7 +56,7 @@
                 <li v-if="this.$store.state.userRole !== null" class="user-nav" @click="close">
                      <router-link class="link" :to="{name:'CreatePost'}">Create Posts</router-link>
                 </li>
-                <li class="user-nav" @click="close">
+                <li class="user-nav" v-if="!user" @click="close">
                      <router-link class="link" :to="{name :'Login'}">Login/Register</router-link>
                 </li>
 

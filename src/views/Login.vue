@@ -18,7 +18,12 @@
               <router-link class="forgot-password" :to="{name:'ForgotPassword'}">
                    forgot your password?
               </router-link>
-              <button @click.prevent="logUser" class="button-click">Sign In</button>
+              <div class="user_load" >
+                  <button @click.prevent="logUser" class="button-click">Sign In</button>
+                  <div class="load_clicked_button">
+                        <userAuthLoading v-if="loading"/>
+                  </div>
+              </div>
               <div class="angle"></div>
           </form>
           <div class="background"></div>
@@ -30,30 +35,45 @@ import Email from "../assets/Icons/envelope-regular.svg"
 import Password from "../assets/Icons/lock-alt-solid.svg"
 import firebase from "firebase/app";
 import "firebase/auth";
+import userAuthLoading from "../components/userAuthLoading.vue";
 
 export default {
      name:'login',
      components:{
-        Email,Password
+        Email,Password,userAuthLoading
      },
      data(){
           return{
                email: null,
                password: null,
                error:null,
+               loading: null,
                errorMsg: ""
           }
      },
      methods:{
-          logUser(){
-               firebase.auth().signInWithEmailAndPassword(this.email , this.password).then(()=> {
-                    this.$router.push({name:"Home"});
-                    this.error = false;
-                    this.errorMsg = ""
-               }).catch(err => {
+          logUser(){                                   
+               if(this.email === null || this.password === null){
                     this.error = true;
-                    this.errorMsg = err.message;
-               });
+                    this.errorMsg = "Oops!! input feild cannot be empty."
+                    setTimeout( () => {
+                        this.error = false
+                    } , 4000)
+               }else{
+                    this.error = false
+                    this.errorMsg = ""
+                    this.loading = true;
+                    firebase.auth().signInWithEmailAndPassword(this.email , this.password).then(()=> {
+                        this.$router.push({name:"Home"});
+                        this.error = false;
+                        this.errorMsg = ""
+                        this.loading = false
+                    }).catch(err => {
+                        this.loading = false
+                        this.error = true;
+                        this.errorMsg = err.message;
+                    });
+               }
           },
      }
 }
@@ -193,6 +213,18 @@ export default {
                 display: initial;               
           }
      }
+   }
+
+   .user_load{
+        position: relative ;
+        width: 100%;
+
+        .load_clicked_button{
+             position: absolute;
+             top: 0;
+             display: flex;
+             width: 100%;
+        }
    }
 
 </style>

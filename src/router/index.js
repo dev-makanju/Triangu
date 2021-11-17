@@ -124,7 +124,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  //mode: "history",
+  mode: "history",
   base: process.env.BASE_URL,
   routes,
 });
@@ -139,7 +139,7 @@ router.beforeEach((to , from , next) => {
     let user = firebase.auth().currentUser;
     let userRole = null;
     if(user){
-      userRole = store.state.userRole;
+        userRole = store.state.userRole;
     }
     if(to.matched.some( (res) => res.meta.requireAuths)){
         if(user){
@@ -151,7 +151,7 @@ router.beforeEach((to , from , next) => {
            }
            return next()
         }  
-        return next({name: 'Home'})
+        return next({name: 'Login'})
     }
     return next();
 });
