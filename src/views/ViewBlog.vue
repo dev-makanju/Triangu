@@ -33,7 +33,10 @@
         font-size: 14px;
         margin-bottom: 24px;
     }
-}
 
+    img{
+        width: 100%;
+    }
+}
 
 </style>
