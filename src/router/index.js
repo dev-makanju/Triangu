@@ -12,6 +12,7 @@ import BlogPreview from "../views/BlogPreview.vue";
 import ViewBlog from "../views/ViewBlog.vue";
 import EditBlog from "../views/EditBlog.vue";
 import firebase from "firebase/app";
+import NotFound from "../views/NotFound.vue"
 import "firebase/auth";
 import store from '../store/index'
 
@@ -120,6 +121,11 @@ const routes = [
       title:"View blog post",
       requireAuths:false
     }
+  },
+  {
+    path:'*',
+    name:'NotFound',
+    component:NotFound,
   },
 ];
 

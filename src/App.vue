@@ -52,7 +52,7 @@ export default{
 
   methods:{
       checkRoute(){
-        if(this.$route.name === "Login" || this.$route.name === "Register" || this.$route.name === "ForgotPassword"){
+        if(this.$route.name === "Login" || this.$route.name === "Register" || this.$route.name === "ForgotPassword" || this.$route.name === "NotFound"){
             this.NavigationDisabled = true;
             return;
         }this.NavigationDisabled = false;
