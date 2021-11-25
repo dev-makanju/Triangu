@@ -22,7 +22,7 @@
             },
             editPost:{
                 get(){
-                    return this.$store.state.editPost
+                    return this.$store.state.editPost;
                 },
                 set(payload){
                     this.$store.commit("toggleEditPost",payload)

@@ -16,7 +16,7 @@
                 <div class="col-2">
                     <ul>
                          <router-link class="link" :to="{name:'home'}">Home</router-link>
-                         <router-link class="link" :to="{name:'blogs'}"></router-link>
+                         <router-link class="link" :to="{name:'blogs'}">Blogs</router-link>
                          <router-link class="link" :to="{name:'CreatePost'}">Create Post</router-link>
                          <router-link class="link" :to="{name:'auth'}">
                              Login in / Register
@@ -134,11 +134,11 @@ footer{
             ul{
                 height: 100%;
                 justify-content: center;
-                align-items: center;
                 flex-direction: row;
                 flex-wrap: wrap;
                 @media (min-width: 800px){
                     flex-direction: column;
+                    justify-content: flex-start ;
                 }
 
                 .link{
