@@ -101,6 +101,7 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 3em;
       @media (min-width: 768px){
          height: 500px;
          padding: 125px 25px;

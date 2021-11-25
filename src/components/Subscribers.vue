@@ -35,7 +35,7 @@
 <style lang="scss" scoped>
 .subscribers{
     background-color: #eee;
-    padding: 60px 40px;
+    padding: 60px 20px;
     width: 450px;
     max-width: 360px;
     border-radius: 5px;
@@ -57,8 +57,8 @@
         max-width: 280px;
     }
 
-
     @media (max-width: 500px) {
+
         max-width: 310px;
     }
 

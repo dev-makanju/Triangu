@@ -406,7 +406,15 @@ export default {
 
                 .svg-icon{
                     width: 25px;
-
+                    color: #000;
+                    margin: 5px;
+                    &:hover{
+                        fill: antiquewhite;
+                        border-radius: 50%;
+                        background: #080866;
+                        transition: .4s all;
+                        color: #fff;
+                    }
                 }
             }
         }
