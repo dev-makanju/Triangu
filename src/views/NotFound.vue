@@ -24,20 +24,14 @@
 center{
     padding: 40px 40px;
     position: relative;
+    height: 100vh ;
 
     .errorImg{
         position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100vw;
-        @media (min-width: 768px) {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%; 
-        }
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
     }
 
     .error-info{

@@ -13,6 +13,14 @@
      img{
          width: 100%;
          height: 100vh;
+         object-fit: cover;
+     }
+
+     @media (max-width: 450px ){ 
+         img{
+             width: 100% ;
+             margin: 0 auto ;
+         }
      }
  }
 </style>
