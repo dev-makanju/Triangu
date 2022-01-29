@@ -30,7 +30,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 
     export default {
-        name:'ForgotPassword',
+        name:'ForgotPassword ',
         components:{ Email,Modal,Loading},
         data(){
             return{
@@ -47,7 +47,7 @@ import "firebase/auth";
                     firebase.auth().sendPasswordResetEmail(this.email).then(() => {
                     this.modalMessage = "You will recieve an email shortly, if your account exist!"
                     this.loading = false;
-                    this.modalActive =true
+                    this.modalActive = true;
                     return;
                   }).catch(err => {
                     this.modalMessage = err.message

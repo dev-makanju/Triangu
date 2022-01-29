@@ -52,10 +52,10 @@ export default{
 
   methods:{
       checkRoute(){
-        if(this.$route.name === "Login" || this.$route.name === "Register" || this.$route.name === "ForgotPassword" || this.$route.name === "NotFound"){
+          if(this.$route.name === "Login" || this.$route.name === "Register" || this.$route.name === "ForgotPassword" || this.$route.name === "NotFound"){
             this.NavigationDisabled = true;
             return;
-        }this.NavigationDisabled = false;
+          }this.NavigationDisabled = false;
       },
       showContainerOverlay(){
           this.NavActive = !this.NavActive;
@@ -77,7 +77,6 @@ export default{
 </script>
 
 <style lang="scss">
-
 
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 

@@ -123,7 +123,7 @@ const routes = [
     }
   },
   {
-    path:'*',
+    path:'/:catchAll(.*)*',
     name:'NotFound',
     component:NotFound,
   },

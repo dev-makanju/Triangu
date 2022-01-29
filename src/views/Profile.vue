@@ -30,8 +30,8 @@
          </div>
     </div>
 </template>
-
 <script>
+
 import Modal from "../components/Modal.vue"
 import adminIcon from "../assets/Icons/user-crown-light.svg"
     export default {

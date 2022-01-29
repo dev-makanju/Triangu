@@ -31,6 +31,7 @@
 </template>
 
 <script>
+
 import Email from "../assets/Icons/envelope-regular.svg"
 import Password from "../assets/Icons/lock-alt-solid.svg"
 import firebase from "firebase/app";

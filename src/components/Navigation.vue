@@ -154,9 +154,6 @@ export default {
             }
             document.documentElement.style.overflow = 'auto'
         },
-        // $router(to , from){
-        //      document.documentElement.style.overflow = null;
-        // }
     },
     computed:{
         user(){
@@ -241,8 +238,8 @@ export default {
                        &:hover{
                            color: rgb(247, 247, 95);
                        }
-                       &.router-link-exact-active{
                            color: rgb(247, 247, 95);
+                       &.router-link-exact-active{
                        }
                    }
 
